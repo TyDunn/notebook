@@ -1,0 +1,19 @@
+CREATE TABLE users(
+	username VARCHAR(20) NOT NULL PRIMARY KEY,
+	phone VARCHAR(20) NOT NULL,
+	curr_check_in_id INTEGER NOT NULL,
+	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	FOREIGN KEY(curr_check_in_id) REFERENCES check_ins(check_in_id)
+);
+
+CREATE TABLE check_ins(
+	check_in_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	username VARCHAR(20) NOT NULL,
+	emotion1 VARCHAR(64),
+	emotion2 VARCHAR(64),
+	emotion3 VARCHAR(64),
+	thoughts VARCHAR(1024),
+	tags VARCHAR(1024),
+	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	FOREIGN KEY(username) REFERENCES users(username)
+);

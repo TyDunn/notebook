@@ -1,0 +1,150 @@
+{
+  "love": {
+    "peaceful": [
+      "satisfied",
+      "relieved"
+    ],
+    "tenderness": [
+      "compassionate",
+      "caring"
+    ],
+    "desire": [
+      "infatuation",
+      "passion"
+    ],
+    "longing": [
+      "attracted",
+      "sentimental"
+    ],
+    "affectionate": [
+      "fondness",
+      "romantic"
+    ]
+  },
+  "joy": {
+    "enthralled": [
+      "rapture",
+      "enchanted"
+    ],
+    "elation": [
+      "jubilation",
+      "euphoric"
+    ],
+    "enthusiastic": [
+      "zeal",
+      "excited"
+    ],
+    "optimistic": [
+      "hopeful",
+      "eager"
+    ],
+    "proud": [
+      "illustrious",
+      "triumphant"
+    ],
+    "cheerful": [
+      "jovial",
+      "blissful"
+    ],
+    "happy": [
+      "amused",
+      "delighted"
+    ],
+    "content": [
+      "pleased",
+      "satisfied"
+    ]
+  },
+  "surprise": {
+    "stunned": [
+      "shocked",
+      "dismayed"
+    ],
+    "confused": [
+      "disillusioned",
+      "perplexed"
+    ],
+    "amazed": [
+      "astonished",
+      "awe-struck"
+    ],
+    "overcome": [
+      "speechless",
+      "astounded"
+    ],
+    "moved": [
+      "stimulated",
+      "touched"
+    ]
+  },
+  "sadness": {
+    "suffering": [
+      "agony",
+      "hurt"
+    ],
+    "sadness": [
+      "depressed",
+      "sorrow"
+    ],
+    "disappointed": [
+      "dismayed",
+      "displeased"
+    ],
+    "shameful": [
+      "regretful",
+      "guilty"
+    ],
+    "neglected": [
+      "isolated",
+      "lonely"
+    ],
+    "despair": [
+      "grief",
+      "powerless"
+    ]
+  },
+  "anger": {
+    "rage": [
+      "hate",
+      "hostile"
+    ],
+    "exasperated": [
+      "agitated",
+      "frustrated"
+    ],
+    "irritable": [
+      "annoyed",
+      "aggravated"
+    ],
+    "envy": [
+      "resentful",
+      "jealous"
+    ],
+    "disgust": [
+      "revolted",
+      "contempt"
+    ]
+  },
+  "fear": {
+    "horror": [
+      "dread",
+      "mortified"
+    ],
+    "nervous": [
+      "anxious",
+      "worried"
+    ],
+    "insecure": [
+      "inadequate",
+      "inferior"
+    ],
+    "terror": [
+      "hysterical",
+      "panic"
+    ],
+    "scared": [
+      "frightened",
+      "helpless"
+    ]
+  }
+}
