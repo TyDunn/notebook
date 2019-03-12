@@ -1,4 +1,4 @@
-#/env/bin/ python
+#/env/bin/python
 import flask
 import notebook
 import json
