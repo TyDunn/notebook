@@ -1,4 +1,5 @@
 #/env/bin/python
+
 import flask
 import notebook
 import json
@@ -10,14 +11,17 @@ from .credentials import account_sid, auth_token, acceptable_users, username, fr
 
 client = Client(account_sid, auth_token)
 
+
 def schedule():
+    """Schedule check ins using background scheduler."""
     start_check_in()
     sched = BackgroundScheduler()
     sched.add_job(start_check_in, 'interval', minutes=1440)
     sched.start()
 
+
 @notebook.app.route("/sms", methods=['GET', 'POST'])
-def sms():
+def send_sms():
     """Process incoming messages, call check_in(), and send response."""
     number = flask.request.form['From']
     text = flask.request.form['Body']
@@ -46,6 +50,24 @@ def get_step_id(username):
                     if check_in['tags']:
                         step = 6
     return step, check_in_id
+
+
+def start_check_in():
+    with notebook.app.app_context(): 
+        sql = 'INSERT INTO check_ins(username) VALUES (?)'
+        notebook.model.update_db(sql, (username,))
+        core = ['love', 'joy', 'surprise', 'sadness', 'anger', 'fear']
+        body = 'Please select the emotion that best describes how you felt:'
+        for emotion in core:
+            body += ' ' + emotion
+        message = client.messages \
+                        .create(
+                            body=body,
+                            from_=from_num,
+                            to=to_num
+                        )
+        print(message.sid)
+
 
 def check_in(number, text):
     """Check in based on step."""
@@ -108,20 +130,3 @@ def check_in(number, text):
         message = "Oops! Something went wrong. Please check the logs now."
         resp.message(message)
     return resp
-
-
-def start_check_in():
-    with notebook.app.app_context(): 
-        sql = 'INSERT INTO check_ins(username) VALUES (?)'
-        notebook.model.update_db(sql, (username,))
-        core = ['love', 'joy', 'surprise', 'sadness', 'anger', 'fear']
-        body = 'Please select the emotion that best describes how you felt:'
-        for emotion in core:
-            body += ' ' + emotion
-        message = client.messages \
-                        .create(
-                            body=body,
-                            from_=from_num,
-                            to=to_num
-                        )
-        print(message.sid)
