@@ -1,3 +1,4 @@
+"""Check-in API."""
 #/env/bin/python
 
 import flask
