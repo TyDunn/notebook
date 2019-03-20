@@ -1,14 +1,14 @@
 """Check-in API."""
 #/env/bin/python
 
-import flask
-import notebook
 import json
+import flask
 from twilio.twiml.messaging_response import MessagingResponse
 from twilio.rest import Client
 from fuzzywuzzy import process
 from apscheduler.schedulers.background import BackgroundScheduler
-from .credentials import account_sid, auth_token, acceptable_users, username, from_num, to_num 
+import notebook
+from .credentials import account_sid, auth_token, acceptable_users, USERNAME, from_num, to_num
 
 client = Client(account_sid, auth_token)
 
@@ -17,12 +17,12 @@ def schedule():
     """Schedule check ins using background scheduler."""
     start_check_in()
     sched = BackgroundScheduler()
-    sched.add_job(start_check_in, 'interval', minutes=1440)
+    sched.add_job(start_check_in, 'interval', minutes=0.1)
     sched.start()
 
 
 @notebook.app.route("/sms", methods=['GET', 'POST'])
-def send_sms():
+def sms():
     """Process incoming messages, call check_in(), and send response."""
     number = flask.request.form['From']
     text = flask.request.form['Body']
@@ -54,9 +54,9 @@ def get_step_id(username):
 
 
 def start_check_in():
-    with notebook.app.app_context(): 
+    with notebook.app.app_context():
         sql = 'INSERT INTO check_ins(username) VALUES (?)'
-        notebook.model.update_db(sql, (username,))
+        notebook.model.update_db(sql, (USERNAME,))
         core = ['love', 'joy', 'surprise', 'sadness', 'anger', 'fear']
         body = 'Please select the emotion that best describes how you felt:'
         for emotion in core:
@@ -79,14 +79,14 @@ def check_in(number, text):
         message = 'Unauthorized request'
         resp.message(message)
         return resp
-    
+
     step, check_in_id = get_step_id(username)
 
     with open('emotions/config.json') as f:
         emotions = json.load(f)
-    
+
     core = ['love', 'joy', 'surprise', 'sadness', 'anger', 'fear']
-    
+
     if step == 1:
         emotion = process.extractOne(text, core)[0]
         sql = 'UPDATE check_ins SET emotion1 = ? WHERE check_in_id = ?'
@@ -95,7 +95,7 @@ def check_in(number, text):
         for emotion in emotions[emotion]:
             message += ' ' + emotion
         resp.message(message)
-    elif step == 2:    
+    elif step == 2:
         sql = 'SELECT emotion1 FROM check_ins WHERE check_in_id = ?'
         core_emotion = notebook.model.query_db(sql, (check_in_id,))[0]['emotion1']
         prev_emotions = []
