@@ -1,2 +1,2 @@
 """API."""
-from notebook.api.check_in import sms
+from notebook.api.conv import sms
