@@ -35,6 +35,7 @@ def sms():
 
 
 def get_step_id(username):
+    """Determine what step a user is on currently."""
     sql = 'SELECT *, max(created) FROM check_ins WHERE username = ?'
     check_in = notebook.model.query_db(sql, (username,))[0]
     print('check in:', check_in)
@@ -54,6 +55,7 @@ def get_step_id(username):
 
 
 def start_check_in():
+    """Start a check in."""
     with notebook.app.app_context():
         sql = 'INSERT INTO check_ins(username) VALUES (?)'
         notebook.model.update_db(sql, (USERNAME,))
