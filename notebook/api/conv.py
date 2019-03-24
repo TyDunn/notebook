@@ -14,7 +14,9 @@ client = Client(account_sid, auth_token)
 
 
 def schedule():
-    """Schedule check ins using background scheduler."""
+    """
+    Schedule check-ins using background scheduler.
+    """
     start_check_in()
     sched = BackgroundScheduler()
     sched.add_job(start_check_in, 'interval', minutes=0.1)
@@ -23,7 +25,9 @@ def schedule():
 
 @notebook.app.route("/sms", methods=['GET', 'POST'])
 def sms():
-    """Process incoming messages, call check_in(), and send response."""
+    """
+    Process incoming messages, call check_in(), and send response.
+    """
     number = flask.request.form['From']
     text = flask.request.form['Body']
     if text == 'start':
@@ -35,10 +39,11 @@ def sms():
 
 
 def get_step_id(username):
-    """Determine what step a user is on currently."""
+    """
+    Determine what step a user is on currently.
+    """
     sql = 'SELECT *, max(created) FROM check_ins WHERE username = ?'
     check_in = notebook.model.query_db(sql, (username,))[0]
-    print('check in:', check_in)
     check_in_id = check_in['check_in_id']
     step = 1
     if check_in['emotion1']:
@@ -55,7 +60,9 @@ def get_step_id(username):
 
 
 def start_check_in():
-    """Start a check in."""
+    """
+    Start a check in.
+    """
     with notebook.app.app_context():
         sql = 'INSERT INTO check_ins(username) VALUES (?)'
         notebook.model.update_db(sql, (USERNAME,))
@@ -63,17 +70,13 @@ def start_check_in():
         body = 'Please select the emotion that best describes how you felt:'
         for emotion in core:
             body += ' ' + emotion
-        message = client.messages \
-                        .create(
-                            body=body,
-                            from_=from_num,
-                            to=to_num
-                        )
-        print(message.sid)
+        message = client.messages.create(body=body, from_=from_num, to=to_num)
 
 
 def check_in(number, text):
-    """Check in based on step."""
+    """
+    Check in based on step.
+    """
     resp = MessagingResponse()
     if number in acceptable_users:
         username = acceptable_users[number]
