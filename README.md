@@ -10,6 +10,8 @@
 
 4) Ensure that you accept inbound rules allow traffic on specified port and IP address
 
-5) Run `./bin/notebookrun`
+5) Ensure that the Twilio messaging webhook is pointed toward your url.
 
-6) Send `start` to the `to_num` to bootstrap the system
+6) Run `./bin/notebookrun`
+
+7) Send `start` to the `to_num` to bootstrap the system
