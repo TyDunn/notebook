@@ -12,6 +12,6 @@
 
 5) Ensure that the Twilio messaging webhook is pointed toward your url.
 
-6) Run `./bin/notebookrun`
+6) Run gunicorn -b localhost:8000 -w 2 -D notebook:app
 
 7) Send `start` to the `to_num` to bootstrap the system
