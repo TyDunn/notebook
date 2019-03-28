@@ -28,7 +28,6 @@ def sms():
     """
     Process incoming messages, call check_in(), and send response.
     """
-    print('message recieved')
     number = flask.request.form['From']
     text = flask.request.form['Body']
     if text == 'start':
