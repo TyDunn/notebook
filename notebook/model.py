@@ -3,7 +3,7 @@
 """
 Notebook database API.
 
-Ty Dunn <tydunn@umich.edu>
+Ty Dunn <ty@tydunn.com>
 """
 
 import sqlite3
