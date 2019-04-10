@@ -3,7 +3,7 @@
 """
 Development configuration.
 
-Ty Dunn <tydunn@umich.edu>
+Ty Dunn <ty@tydunn.com>
 """
 
 import os

@@ -1,4 +1,8 @@
-"""Check-in API."""
+"""
+Check-in API.
+
+Ty Dunn <ty@tydunn.com>
+"""
 #/env/bin/python
 
 import json
