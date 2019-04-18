@@ -22,14 +22,14 @@ def get_db():
     """Open a new database connection."""
     if not hasattr(flask.g, 'sqlite_db'):
         flask.g.sqlite_db = sqlite3.connect(
-            notebook.app.config['DATABASE_FILENAME'])
+            notebook.APP.config['DATABASE_FILENAME'])
         flask.g.sqlite_db.row_factory = dict_factory
         flask.g.sqlite_db.execute("PRAGMA foreign_keys = ON")
 
     return flask.g.sqlite_db
 
 
-def query_db(query, args =(), one=False):
+def query_db(query, args=(), one=False):
     """Submit query to the database."""
     cur = get_db().execute(query, args)
     val = cur.fetchall()
@@ -45,8 +45,8 @@ def update_db(query, args=()):
     cur.close()
 
 
-@notebook.app.teardown_appcontext
-def close_db(error):
+@notebook.APP.teardown_appcontext
+def close_db():
     """Close the database at the end of the request."""
     if hasattr(flask.g, 'sqlite_db'):
         flask.g.sqlite_db.commit()
