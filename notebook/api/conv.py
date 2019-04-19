@@ -12,9 +12,9 @@ from twilio.rest import Client
 from fuzzywuzzy import process
 from apscheduler.schedulers.background import BackgroundScheduler
 import notebook
-from .credentials import account_sid, auth_token, acceptable_users, USERNAME, from_num, to_num
+from .credentials import ACCOUNT_SID, AUTH_TOKEN, ACCEPTABLE_USERS, USERNAME, FROM_NUM, TO_NUM
 
-client = Client(account_sid, auth_token)
+client = Client(ACCOUNT_SID, AUTH_TOKEN)
 
 
 def schedule():
@@ -74,7 +74,7 @@ def start_check_in():
         body = 'Please select the emotion that best describes how you felt:'
         for emotion in core:
             body += ' ' + emotion
-        message = client.messages.create(body=body, from_=from_num, to=to_num)
+        message = client.messages.create(body=body, from_=FROM_NUM, to=TO_NUM)
 
 
 def check_in(number, text):
@@ -82,8 +82,8 @@ def check_in(number, text):
     Check in based on step.
     """
     resp = MessagingResponse()
-    if number in acceptable_users:
-        username = acceptable_users[number]
+    if number in ACCEPTABLE_USERS:
+        username = ACCEPTABLE_USERS[number]
     else:
         message = 'Unauthorized request'
         resp.message(message)
