@@ -130,7 +130,7 @@ def check_in(number, text):
         sql = 'UPDATE check_ins SET thoughts = ? WHERE check_in_id = ?'
         notebook.model.update_db(sql, (text, check_in_id))
         message = "Any tags?"
-        resp.message(message) 
+        resp.message(message)
     elif step == 5:
         sql = 'UPDATE check_ins SET tags = ? WHERE check_in_id = ?'
         notebook.model.update_db(sql, (text, check_in_id))
