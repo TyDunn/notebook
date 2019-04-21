@@ -14,7 +14,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 import notebook
 from .credentials import ACCOUNT_SID, AUTH_TOKEN, ACCEPTABLE_USERS, USERNAME, FROM_NUM, TO_NUM
 
-client = Client(ACCOUNT_SID, AUTH_TOKEN)
+client = Client(ACCOUNT_SID, AUTH_TOKEN) # pylint: disable=invalid-name
 
 
 def schedule():
@@ -38,8 +38,7 @@ def sms():
         schedule()
         resp = MessagingResponse()
         return str(resp)
-    else:
-        return str(check_in(number, text))
+    return str(do_check_in(number, text))
 
 
 def get_step_id(username):
@@ -75,9 +74,9 @@ def start_check_in():
         for emotion in core:
             body += ' ' + emotion
         message = client.messages.create(body=body, from_=FROM_NUM, to=TO_NUM)
+    # what is supposed to happen here?
 
-
-def check_in(number, text):
+def do_check_in(number, text):
     """
     Check in based on step.
     """
