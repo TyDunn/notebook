@@ -90,8 +90,8 @@ def do_check_in(number, text):
 
     step, check_in_id = get_step_id(username)
 
-    with open('emotions/config.json') as f:
-        emotions = json.load(f)
+    with open('emotions/config.json') as file:
+        emotions = json.load(file)
 
     core = ['love', 'joy', 'surprise', 'sadness', 'anger', 'fear']
 
