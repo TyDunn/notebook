@@ -10,6 +10,7 @@ import sqlite3
 import flask
 import notebook
 
+
 def dict_factory(cursor, row):
     """Convert database row objects to a dictionary."""
     output = {}

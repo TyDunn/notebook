@@ -1,9 +1,9 @@
+#!/env/bin/python
 """
 Check-in API.
 
 Ty Dunn <ty@tydunn.com>
 """
-#/env/bin/python
 
 import json
 import flask
@@ -12,9 +12,10 @@ from twilio.rest import Client
 from fuzzywuzzy import process
 from apscheduler.schedulers.background import BackgroundScheduler
 import notebook
-from .credentials import ACCOUNT_SID, AUTH_TOKEN, ACCEPTABLE_USERS, USERNAME, FROM_NUM, TO_NUM
+from .credentials import (ACCOUNT_SID, AUTH_TOKEN, ACCEPTABLE_USERS,
+                          USERNAME, FROM_NUM, TO_NUM)
 
-client = Client(ACCOUNT_SID, AUTH_TOKEN) # pylint: disable=invalid-name
+client = Client(ACCOUNT_SID, AUTH_TOKEN)  # pylint: disable=invalid-name
 
 
 def schedule():
@@ -76,6 +77,7 @@ def start_check_in():
         message = client.messages.create(body=body, from_=FROM_NUM, to=TO_NUM)
     # what is supposed to happen here?
 
+
 def do_check_in(number, text):
     """
     Check in based on step.
@@ -105,7 +107,8 @@ def do_check_in(number, text):
         resp.message(message)
     elif step == 2:
         sql = 'SELECT emotion1 FROM check_ins WHERE check_in_id = ?'
-        core_emotion = notebook.model.query_db(sql, (check_in_id,))[0]['emotion1']
+        core_emotion = \
+            notebook.model.query_db(sql, (check_in_id,))[0]['emotion1']
         prev_emotions = []
         for prev_emotion in emotions[core_emotion]:
             prev_emotions.append(prev_emotion)
@@ -119,7 +122,8 @@ def do_check_in(number, text):
     elif step == 3:
         sql = 'SELECT emotion1, emotion2 FROM check_ins WHERE check_in_id = ?'
         sel_emotions = notebook.model.query_db(sql, (check_in_id,))[0]
-        prev_emotions = emotions[sel_emotions['emotion1']][sel_emotions['emotion2']]
+        prev_emotions = \
+            emotions[sel_emotions['emotion1']][sel_emotions['emotion2']]
         emotion = process.extractOne(text, prev_emotions)[0]
         sql = 'UPDATE check_ins SET emotion3 = ? WHERE check_in_id = ?'
         notebook.model.update_db(sql, (emotion, check_in_id))
