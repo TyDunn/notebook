@@ -67,7 +67,7 @@ def start_check_in():
         for emotion in core:
             body += ' ' + emotion
         message = client.messages.create(body=body, from_=FROM_NUM, to=TO_NUM)
-    # what is supposed to happen here?
+    # how does this message end up in the response object returned by start?
 
 
 def do_check_in(number, text):
