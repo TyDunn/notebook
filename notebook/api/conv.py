@@ -62,12 +62,12 @@ def start_check_in():
     with notebook.app.app_context():
         sql = 'INSERT INTO check_ins(username) VALUES (?)'
         notebook.model.update_db(sql, (USERNAME,))
-        core = ['love', 'joy', 'surprise', 'sadness', 'anger', 'fear']
-        body = 'Please select the emotion that best describes how you felt:'
-        for emotion in core:
-            body += ' ' + emotion
-        message = client.messages.create(body=body, from_=FROM_NUM, to=TO_NUM)
-    # how does this message end up in the response object returned by start?
+        # core = ['love', 'joy', 'surprise', 'sadness', 'anger', 'fear']
+        # body = 'Please select the emotion that best describes how you felt:'
+        # for emotion in core:
+        #    body += ' ' + emotion
+        # message = client.messages.create(body=body, from_=FROM_NUM, to=TO_NUM)
+    # this is unecessary
 
 
 def do_check_in(number, text):
