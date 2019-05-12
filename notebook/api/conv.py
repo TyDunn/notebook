@@ -20,10 +20,14 @@ client = Client(ACCOUNT_SID, AUTH_TOKEN)  # pylint: disable=invalid-name
 
 def schedule():
     """Schedule check-ins using background scheduler."""
-    start_check_in()
-    sched = BackgroundScheduler()
-    sched.add_job(start_check_in, 'interval', minutes=0.1)
-    sched.start()
+    # schedules future check-ins
+    scheduler = BackgroundScheduler()
+    scheduler.add_job(start_check_in, 'interval', minutes=1440)
+    scheduler.start()
+    
+    # executes first check-in
+    message = start_check_in()
+    return message
 
 
 @notebook.app.route("/sms", methods=['GET', 'POST'])
@@ -32,8 +36,7 @@ def sms():
     number = flask.request.form['From']
     text = flask.request.form['Body']
     if text == 'start':
-        schedule()
-        resp = MessagingResponse()
+        resp = schedule()
         return str(resp)
     return str(do_check_in(number, text))
 
@@ -62,13 +65,12 @@ def start_check_in():
     with notebook.app.app_context():
         sql = 'INSERT INTO check_ins(username) VALUES (?)'
         notebook.model.update_db(sql, (USERNAME,))
-        # core = ['love', 'joy', 'surprise', 'sadness', 'anger', 'fear']
-        # body = 'Please select the emotion that best describes how you felt:'
-        # for emotion in core:
-        #    body += ' ' + emotion
-        # message = client.messages.create(body=body, from_=FROM_NUM, to=TO_NUM)
-    # this is unecessary
-
+        core = ['love', 'joy', 'surprise', 'sadness', 'anger', 'fear']
+        body = 'Please select the emotion that best describes how you felt:'
+        for emotion in core:
+            body += ' ' + emotion
+        message = client.messages.create(body=body, from_=FROM_NUM, to=TO_NUM)
+        return message
 
 def do_check_in(number, text):
     """Check in based on step."""
